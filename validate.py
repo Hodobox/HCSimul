@@ -46,14 +46,16 @@ with open(datastr,'r') as data:
             if toppings['M'] < l:
                 print('Only ' + str(toppings['M']) + ' mushrooms',file = sys.stderr)
 
+        taken = [ [0 for _ in range(c)] for _ in range(r)]
+        for piece in slices:
+            rows = list(sorted([piece[0],piece[2]]))
+            cols = list(sorted([piece[1],piece[3]]))
+
+            for row in range(rows[0],rows[1]+1):
+                for col in range(cols[0],cols[1]+1):
+                    taken[row][col] += 1
+
         for row in range(r):
             for col in range(c):
-                in_slices = 0
-                for piece in slices:
-                    rows = list(sorted([piece[0],piece[2]]))
-                    cols = list(sorted([piece[1],piece[3]])) 
-                    if row >= rows[0] and row <= rows[1] and col >= cols[0] and col <= cols[1]:
-                        in_slices += 1
-
-                if in_slices > 1:
-                    print(str(row) + ',' + str(col) + ' is in ' + str(in_slices) + ' slices', file = sys.stderr)
+                if taken[row][col] > 1:
+                    print(str(row)+','+str(col)+' in ' + str(taken[row][col]) + ' slices',file = sys.stderr)
